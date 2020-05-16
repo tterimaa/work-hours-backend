@@ -1,0 +1,39 @@
+{
+  "name": "jwt-auth-typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && cp ./{id_rsa_pub.pem,id_rsa_priv.pem} build/",
+    "start": "node build/src/app.js",
+    "dev": "ts-node-dev src/app.ts",
+    "generateKeypair": "ts-node generateKeypair.ts",
+    "lint": "eslint --ext .ts .",
+    "lint:fix": "eslint --fix --ext .ts ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.6",
+    "@types/mongodb": "^3.5.16",
+    "@types/mongoose": "^5.7.18",
+    "@types/passport": "^1.0.3",
+    "@types/passport-jwt": "^3.0.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.14",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^13.13.5",
+    "@typescript-eslint/eslint-plugin": "^2.33.0",
+    "@typescript-eslint/parser": "^2.33.0",
+    "eslint": "^7.0.0",
+    "ts-node-dev": "^1.0.0-pre.44",
+    "typescript": "^3.8.3"
+  }
+}
