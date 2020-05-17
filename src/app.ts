@@ -5,6 +5,7 @@ import router from "./routes/index";
 import dotenv from "dotenv";
 dotenv.config();
 import "./config/database";
+import morgan from "morgan";
 
 // Create the Express application
 const app = express();
@@ -18,6 +19,8 @@ app.use(passport.initialize());
 // Instead of using body-parser middleware, use the new Express implementation of the same thing
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(morgan("tiny"));
 
 // Imports all of the routes from ./routes/index.j
 app.use(router);
