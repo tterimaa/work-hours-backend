@@ -1,34 +1,25 @@
-import { Document } from "mongoose";
-
-export interface UserIF extends Document {
+export interface IUser {
+  _id: string;
   email: string;
+  password: string;
   role: Role;
-  firstname?: string;
-  lastname?: string;
-  companyName?: string;
-  companies?: Array<UserIF>;
-  employees?: Array<UserIF>;
   hash: string;
   salt: string;
 }
 
-export type CompanyUser = Omit<UserIF, "firstname" | "lastname" | "companies">;
-
-export type EmployeeUser = Omit<UserIF, "companyName" | "employees">;
-
-export interface NewUser {
-  email: string;
-  password: string;
-  role: Role;
-  firstname?: string;
-  lastname?: string;
-  companyName?: string;
-  companies?: Array<UserIF>;
-  employees?: Array<UserIF>;
+export interface ICompanyUser extends IUser {
+  companyName: string;
+  employees?: Array<IEmployeeUser>;
 }
 
-export type NewCompanyUser = Omit<NewUser, "firstname" | "lastname" | "companies">;
+export interface IEmployeeUser extends IUser {
+  firstname: string;
+  lastname: string;
+  companies?: Array<ICompanyUser>;
+}
 
-export type NewEmployeeUser = Omit<NewUser, "companyName" | "employees">;
+export type CompanyUserInputDTO = Omit<ICompanyUser, "_id" | "hash" | "salt">;
+
+export type EmployeeUserInputDTO = Omit<IEmployeeUser, "_id" | "hash" | "salt">;
 
 type Role = "company" | "employee";

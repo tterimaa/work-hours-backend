@@ -2,7 +2,7 @@ import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
-import { UserIF, NewUser } from "../types";
+import { IUser, CompanyUserInputDTO, EmployeeUserInputDTO } from "../types";
 
 const pathToKey = path.join(__dirname, "../..", "id_rsa_priv.pem");
 const PRIV_KEY = fs.readFileSync(pathToKey, "utf8");
@@ -52,7 +52,7 @@ function genPassword(password: crypto.BinaryLike) {
 /**
  * @param {*} user - The user document object.  We need this to set the JWT `sub` payload property to the MongoDB user ID
  */
-function issueJWT(user: UserIF) {
+function issueJWT(user: IUser) {
   const _id = user._id;
 
   const expiresIn = "1d";
@@ -74,17 +74,26 @@ function issueJWT(user: UserIF) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toNewUserEntry = (object: any): NewUser => {
+const toNewCompanyUserEntry = (object: any): CompanyUserInputDTO => {
   return {
     email: object.email,
     password: object.password,
-    role: object.role,
-    firstname: object.firstname,
-    lastname: object.lastname,
     companyName: object.companyName,
-    companies: object.companies,
+    role: object.role,
     employees: object.employees,
   };
 };
 
-export { validPassword, genPassword, issueJWT, toNewUserEntry };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const toNewEmployeeUserEntry = (object: any): EmployeeUserInputDTO => {
+  return {
+    email: object.email,
+    password: object.password,
+    firstname: object.firstname,
+    lastname: object.lastname,
+    companies: object.companies,
+    role: object.role,
+  };
+};
+
+export { validPassword, genPassword, issueJWT, toNewCompanyUserEntry, toNewEmployeeUserEntry };
