@@ -1,7 +1,12 @@
 import express from "express";
 import passport from "passport";
-import { issueJWT, toNewCompanyUserEntry, toNewEmployeeUserEntry } from "../lib/utils";
+import { issueJWT } from "../lib/utils";
 import userService from "../services/userService";
+import {
+  employeeValidator,
+  companyValidator,
+  loginValidator,
+} from "../lib/middleware";
 
 const router = express.Router();
 
@@ -16,54 +21,56 @@ router.get(
   }
 );
 
-router.post("/register-employee", function (req, res, _next) {
-  const validatedUser = toNewEmployeeUserEntry(req.body);
+router.post("/register-employee", employeeValidator, (req, res, _next) => {
   userService
-    .addEmployee(validatedUser)
+    .addEmployee(req.body)
     .then((user) => {
       res.status(200).json({ success: true, msg: user });
     })
     .catch((err) => res.json({ success: false, msg: err }));
 });
 
-router.post("/login-employee", (req, res, _next) => {
-  const userInput = toNewEmployeeUserEntry(req.body); // Validation?
-  userService.findEmployeeByEmail(userInput.email).then((user) => {
-    if (userService.passwordIsValid(userInput.password, user)) {
-      const tokenObject = issueJWT(user);
-      res.status(200).json({
-        success: true,
-        token: tokenObject.token,
-        expires: tokenObject.expires,
-      });
-    } else res.status(401).json({ success: false, msg: "Wrong password" });
-  })
-  .catch(err => res.json({ success: false, msg: err }));
+router.post("/login-employee", loginValidator, (req, res, _next) => {
+  const { email, password } = req.body;
+  userService
+    .findEmployeeByEmail(email)
+    .then((user) => {
+      if (userService.passwordIsValid(password, user)) {
+        const tokenObject = issueJWT(user);
+        res.status(200).json({
+          success: true,
+          token: tokenObject.token,
+          expires: tokenObject.expires,
+        });
+      } else res.status(401).json({ success: false, msg: "Wrong password" });
+    })
+    .catch((err) => res.json({ success: false, msg: err }));
 });
 
-router.post("/register-company", function (req, res, _next) {
-  const validatedUser = toNewCompanyUserEntry(req.body);
+router.post("/register-company", companyValidator, (req, res, _next) => {
   userService
-    .addCompany(validatedUser)
+    .addCompany(req.body)
     .then((user) => {
       res.status(200).json({ success: true, msg: user });
     })
     .catch((err) => res.json({ success: false, msg: err }));
 });
 
-router.post("/login-company", (req, res, _next) => {
-  const userInput = toNewCompanyUserEntry(req.body); // Validation?
-  userService.findCompanyByEmail(userInput.email).then((user) => {
-    if (userService.passwordIsValid(userInput.password, user)) {
-      const tokenObject = issueJWT(user);
-      res.status(200).json({
-        success: true,
-        token: tokenObject.token,
-        expires: tokenObject.expires,
-      });
-    } else res.status(401).json({ success: false, msg: "Wrong password" });
-  })
-  .catch(err => res.json({ success: false, msg: err.toString() }));
+router.post("/login-company", loginValidator, (req, res, _next) => {
+  const { email, password } = req.body;
+  userService
+    .findCompanyByEmail(email)
+    .then((user) => {
+      if (userService.passwordIsValid(password, user)) {
+        const tokenObject = issueJWT(user);
+        res.status(200).json({
+          success: true,
+          token: tokenObject.token,
+          expires: tokenObject.expires,
+        });
+      } else res.status(401).json({ success: false, msg: "Wrong password" });
+    })
+    .catch((err) => res.json({ success: false, msg: err.toString() }));
 });
 
 export default router;

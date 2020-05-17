@@ -2,7 +2,7 @@ import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
-import { IUser, CompanyUserInputDTO, EmployeeUserInputDTO } from "../types";
+import { IUser } from "../types";
 
 const pathToKey = path.join(__dirname, "../..", "id_rsa_priv.pem");
 const PRIV_KEY = fs.readFileSync(pathToKey, "utf8");
@@ -73,27 +73,4 @@ function issueJWT(user: IUser) {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toNewCompanyUserEntry = (object: any): CompanyUserInputDTO => {
-  return {
-    email: object.email,
-    password: object.password,
-    companyName: object.companyName,
-    role: object.role,
-    employees: object.employees,
-  };
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toNewEmployeeUserEntry = (object: any): EmployeeUserInputDTO => {
-  return {
-    email: object.email,
-    password: object.password,
-    firstname: object.firstname,
-    lastname: object.lastname,
-    companies: object.companies,
-    role: object.role,
-  };
-};
-
-export { validPassword, genPassword, issueJWT, toNewCompanyUserEntry, toNewEmployeeUserEntry };
+export { validPassword, genPassword, issueJWT };
