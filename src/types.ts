@@ -18,8 +18,8 @@ export interface IEmployeeUser extends IUser {
   companies?: Array<ICompanyUser>;
 }
 
-export type CompanyUserInputDTO = Omit<ICompanyUser, "_id" | "hash" | "salt">;
+export type CompanyUserDTO = Omit<ICompanyUser, "_id" | "hash" | "salt">;
 
-export type EmployeeUserInputDTO = Omit<IEmployeeUser, "_id" | "hash" | "salt">;
+export type EmployeeUserDTO = Omit<IEmployeeUser, "_id" | "hash" | "salt">;
 
 type Role = "company" | "employee";

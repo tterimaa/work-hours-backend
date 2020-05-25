@@ -1,4 +1,6 @@
 import { celebrate, Joi } from "celebrate";
+import { ErrorRequestHandler } from "express";
+import { Request, Response } from "express";
 
 const employeeValidator = celebrate({
   body: Joi.object({
@@ -26,4 +28,17 @@ const loginValidator = celebrate({
   }),
 });
 
-export { employeeValidator, companyValidator, loginValidator };
+const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong";
+  res.status(status).send({
+    status,
+    message,
+  });
+};
+
+const unknownEndpoint = (_req: Request, res: Response) => {
+  res.status(404).send({ error: "unknown endpoint" });
+};
+
+export { employeeValidator, companyValidator, loginValidator, errorHandler, unknownEndpoint };

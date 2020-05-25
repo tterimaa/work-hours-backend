@@ -41,7 +41,7 @@ router.post("/login-employee", loginValidator, async (req, res, next) => {
         token: tokenObject.token,
         expires: tokenObject.expires,
       });
-    } else res.status(401).json({ success: false, msg: "Wrong password" }); //TODO: throw custom error here
+    } else throw new Error("Wrong password");
   } catch (e) {
     return next(e);
   }
@@ -69,7 +69,7 @@ router.post("/login-company", loginValidator, async (req, res, next) => {
         token: tokenObject.token,
         expires: tokenObject.expires,
       });
-    } else res.status(401).json({ success: false, msg: "Wrong password" }); //TODO: throw custom error here
+    } else throw new Error("Wrong password");
   } catch (e) {
     return next(e);
   }

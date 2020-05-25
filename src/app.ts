@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import "./config/database";
 import morgan from "morgan";
+import { errorHandler, unknownEndpoint } from "./lib/middleware";
 
 // Create the Express application
 const app = express();
@@ -22,8 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(morgan("tiny"));
 
-// Imports all of the routes from ./routes/index.j
+// Imports all of the routes from ./routes/index.ts
 app.use(router);
+
+app.use(unknownEndpoint);
+
+app.use(errorHandler);
 
 // Server listens on http://localhost:3000
 app.listen(3000);

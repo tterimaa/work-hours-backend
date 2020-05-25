@@ -1,9 +1,9 @@
-import { CompanyUserInputDTO, EmployeeUserInputDTO, IUser } from "../types";
+import { CompanyUserDTO, EmployeeUserDTO, IUser } from "../types";
 import Company from "../models/Company";
 import Employee from "../models/Employee";
 import { genPassword, validPassword } from "../lib/utils";
 
-const addCompany = (user: CompanyUserInputDTO) => {
+const addCompany = (user: CompanyUserDTO) => {
   const saltHash = genPassword(user.password);
 
   const salt = saltHash.salt;
@@ -18,7 +18,7 @@ const addCompany = (user: CompanyUserInputDTO) => {
   return newCompany.save();
 };
 
-const addEmployee = (user: EmployeeUserInputDTO) => {
+const addEmployee = (user: EmployeeUserDTO) => {
     const saltHash = genPassword(user.password);
   
     const salt = saltHash.salt;
