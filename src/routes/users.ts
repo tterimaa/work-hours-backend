@@ -1,12 +1,13 @@
 import express from "express";
 import passport from "passport";
-import { issueJWT } from "../lib/utils";
 import userService from "../services/userService";
+import loginService from "../services/loginService";
 import {
   employeeValidator,
   companyValidator,
   loginValidator,
 } from "../lib/middleware";
+import logger from "../config/logger";
 
 const router = express.Router();
 
@@ -30,23 +31,6 @@ router.post("/register-employee", employeeValidator, async (req, res, next) => {
   }
 });
 
-router.post("/login-employee", loginValidator, async (req, res, next) => {
-  const { email, password } = req.body;
-  try {
-    const user = await userService.findEmployeeByEmail(email);
-    if (userService.passwordIsValid(password, user)) {
-      const tokenObject = issueJWT(user);
-      res.status(200).json({
-        success: true,
-        token: tokenObject.token,
-        expires: tokenObject.expires,
-      });
-    } else throw new Error("Wrong password");
-  } catch (e) {
-    return next(e);
-  }
-});
-
 router.post("/register-company", companyValidator, async (req, res, next) => {
   try {
     const user = await userService.addCompany(req.body);
@@ -58,19 +42,17 @@ router.post("/register-company", companyValidator, async (req, res, next) => {
 
 // TODO: Unite logins into one route, only one line difference now
 // Should login route only handle login and give all the other logic to userService (or loginService)
-router.post("/login-company", loginValidator, async (req, res, next) => {
-  const { email, password } = req.body;
+router.post("/login", loginValidator, async (req, res, next) => {
   try {
-    const user = await userService.findCompanyByEmail(email);
-    if (userService.passwordIsValid(password, user)) {
-      const tokenObject = issueJWT(user);
-      res.status(200).json({
-        success: true,
-        token: tokenObject.token,
-        expires: tokenObject.expires,
-      });
-    } else throw new Error("Wrong password");
-  } catch (e) {
+  const { email, password, role } = req.body;
+  const tokenObject = await loginService.login(email, password, role);
+  res.status(200).json({
+    success: true,
+    token: tokenObject.token,
+    expires: tokenObject.expires
+  });
+  } catch(e) {
+    logger.error(e);
     return next(e);
   }
 });

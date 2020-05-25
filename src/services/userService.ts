@@ -1,7 +1,7 @@
-import { CompanyUserDTO, EmployeeUserDTO, IUser } from "../types";
+import { CompanyUserDTO, EmployeeUserDTO } from "../types";
 import Company from "../models/Company";
 import Employee from "../models/Employee";
-import { genPassword, validPassword } from "../lib/utils";
+import { genPassword } from "../lib/utils";
 
 const addCompany = (user: CompanyUserDTO) => {
   const saltHash = genPassword(user.password);
@@ -42,13 +42,9 @@ const findCompanyByEmail = (companyEmail: string) => {
 
 const findEmployeeByEmail = (employeeEmail: string) => {
     return Employee.findOne({ email: employeeEmail }).then((user) => {
-      if (!user) throw new Error("Company was not found from db");
+      if (!user) throw new Error("Employee was not found from db");
       else return user;
     });
   };
 
-const passwordIsValid = (password: string, user: IUser) => {
-  return validPassword(password, user.hash, user.salt);
-};
-
-export default { addCompany, addEmployee, findCompanyByEmail, findEmployeeByEmail, passwordIsValid };
+export default { addCompany, addEmployee, findCompanyByEmail, findEmployeeByEmail };

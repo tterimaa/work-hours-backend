@@ -18,6 +18,11 @@ export interface IEmployeeUser extends IUser {
   companies?: Array<ICompanyUser>;
 }
 
+export interface IToken {
+  token: string;
+  expires: string;
+}
+
 export type CompanyUserDTO = Omit<ICompanyUser, "_id" | "hash" | "salt">;
 
 export type EmployeeUserDTO = Omit<IEmployeeUser, "_id" | "hash" | "salt">;
