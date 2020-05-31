@@ -11,6 +11,8 @@ const addCompany = (user: CompanyUserDTO) => {
 
   const newCompany = new Company({
     email: user.email,
+    role: user.role,
+    companyName: user.companyName,
     hash: hash,
     salt: salt,
   });
@@ -19,32 +21,39 @@ const addCompany = (user: CompanyUserDTO) => {
 };
 
 const addEmployee = (user: EmployeeUserDTO) => {
-    const saltHash = genPassword(user.password);
-  
-    const salt = saltHash.salt;
-    const hash = saltHash.hash;
-  
-    const newEmployee = new Employee({
-      email: user.email,
-      hash: hash,
-      salt: salt,
-    });
-  
-    return newEmployee.save();
-  };
+  const saltHash = genPassword(user.password);
 
-const findCompanyByEmail = (companyEmail: string) => {
-  return Company.findOne({ email: companyEmail }).then((company) => {
-    if (!company) throw new Error("Company was not found from db");
-    else return company;
+  const salt = saltHash.salt;
+  const hash = saltHash.hash;
+
+  const newEmployee = new Employee({
+    email: user.email,
+    role: user.role,
+    firstname: user.firstname,
+    lastname: user.lastname,
+    hash: hash,
+    salt: salt,
   });
+
+  return newEmployee.save();
+};
+
+const findCompanyByEmail = async (companyEmail: string) => {
+  const company = await Company.findOne({ email: companyEmail });
+  if (company) return company;
+  else throw new Error("Company was not found from db");
 };
 
 const findEmployeeByEmail = (employeeEmail: string) => {
-    return Employee.findOne({ email: employeeEmail }).then((user) => {
-      if (!user) throw new Error("Employee was not found from db");
-      else return user;
-    });
-  };
+  return Employee.findOne({ email: employeeEmail }).then((user) => {
+    if (!user) throw new Error("Employee was not found from db");
+    else return user;
+  });
+};
 
-export default { addCompany, addEmployee, findCompanyByEmail, findEmployeeByEmail };
+export default {
+  addCompany,
+  addEmployee,
+  findCompanyByEmail,
+  findEmployeeByEmail,
+};

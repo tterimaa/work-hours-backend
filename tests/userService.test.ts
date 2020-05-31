@@ -10,15 +10,31 @@ const employee: EmployeeUserDTO = {
   lastname: "Ankka",
 };
 
-describe("loginService tests", () => {
-  beforeAll(async () => await dbHandler.connect());
+beforeAll(async () => await dbHandler.connect());
 
-  afterEach(async () => await dbHandler.clearDatabase());
+afterEach(async () => await dbHandler.clearDatabase());
 
-  afterAll(async () => await dbHandler.closeDatabase());
+afterAll(async () => await dbHandler.closeDatabase());
 
-  test("asd", async () => {
+describe("Registration", () => {
+  test("Save valid user", async () => {
     const newUser = await userService.addEmployee(employee);
     expect(newUser.email).toBeTruthy();
+    expect(newUser.role).toBeTruthy();
+    expect(newUser.firstname).toBeTruthy();
+    expect(newUser.lastname).toBeTruthy();
+    expect(newUser.password).toBeFalsy();
+  });
+
+  test("Find saved user by email", async () => {
+    const newUser = await userService.addEmployee(employee);
+    const found = await userService.findEmployeeByEmail(employee.email);
+    expect(found.email).toEqual(newUser.email);
+  });
+
+  test("Find company fails when trying to find with employee email", async () => {
+    await userService.addEmployee(employee);
+    const promise = userService.findCompanyByEmail(employee.email);
+    expect(promise).rejects.toThrowError();
   });
 });

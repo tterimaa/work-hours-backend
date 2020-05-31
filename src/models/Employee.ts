@@ -4,15 +4,13 @@ import { IEmployeeUser } from "../types";
 const documentName = "Employee";
 
 const EmployeeSchema = new Schema({
-  email: String,
-  role: String,
-  firstname: String,
-  lastname: String,
-  companyName: String,
+  email: { type: String, required: true },
+  role: { type: String, enum: ["employee"], required: true },
+  firstname: { type: String, required: true },
+  lastname: { type: String, required: true },
   companies: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  employees: [{ type: Schema.Types.ObjectId, ref: "User" }],
   hash: String,
-  salt: String
+  salt: String,
 });
 
 const Employee = model<IEmployeeUser & Document>(documentName, EmployeeSchema);
