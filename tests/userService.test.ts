@@ -16,10 +16,6 @@ afterEach(async () => await dbHandler.clearDatabase());
 
 afterAll(async () => await dbHandler.closeDatabase());
 
-afterEach(() => {
-  jest.clearAllMocks()
-});
-
 describe("Registration", () => {
   test("Save valid user", async () => {
     const newUser = await userService.addUser(employee);

@@ -26,7 +26,7 @@ const addUser = (user: UserDTO) => {
 const findUserByEmail = async (companyEmail: string) => {
   const user = await User.findOne({ email: companyEmail });
   if (user) return user;
-  else throw new Error("Company was not found from db");
+  else throw new Error("User was not found from db");
 };
 
 export default {
