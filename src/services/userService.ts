@@ -1,59 +1,35 @@
-import { CompanyUserDTO, EmployeeUserDTO } from "../types";
-import Company from "../models/Company";
-import Employee from "../models/Employee";
+import { UserDTO } from "../types";
+import User from "../models/User";
 import { genPassword } from "../lib/utils";
 
-const addCompany = (user: CompanyUserDTO) => {
+const addUser = (user: UserDTO) => {
   const saltHash = genPassword(user.password);
 
   const salt = saltHash.salt;
   const hash = saltHash.hash;
 
-  const newCompany = new Company({
-    email: user.email,
-    role: user.role,
-    companyName: user.companyName,
-    hash: hash,
-    salt: salt,
-  });
-
-  return newCompany.save();
-};
-
-const addEmployee = (user: EmployeeUserDTO) => {
-  const saltHash = genPassword(user.password);
-
-  const salt = saltHash.salt;
-  const hash = saltHash.hash;
-
-  const newEmployee = new Employee({
+  const newUser = new User({
     email: user.email,
     role: user.role,
     firstname: user.firstname,
     lastname: user.lastname,
+    companies: user.companies,
+    companyName: user.companyName,
+    employees: user.employees,
     hash: hash,
     salt: salt,
   });
 
-  return newEmployee.save();
+  return newUser.save();
 };
 
-const findCompanyByEmail = async (companyEmail: string) => {
-  const company = await Company.findOne({ email: companyEmail });
-  if (company) return company;
+const findUserByEmail = async (companyEmail: string) => {
+  const user = await User.findOne({ email: companyEmail });
+  if (user) return user;
   else throw new Error("Company was not found from db");
 };
 
-const findEmployeeByEmail = (employeeEmail: string) => {
-  return Employee.findOne({ email: employeeEmail }).then((user) => {
-    if (!user) throw new Error("Employee was not found from db");
-    else return user;
-  });
-};
-
 export default {
-  addCompany,
-  addEmployee,
-  findCompanyByEmail,
-  findEmployeeByEmail,
+  addUser,
+  findUserByEmail
 };

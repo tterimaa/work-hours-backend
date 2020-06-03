@@ -1,5 +1,5 @@
 import { celebrate, Joi } from "celebrate";
-import { ErrorRequestHandler } from "express";
+import { ErrorRequestHandler, RequestHandler } from "express";
 import { Request, Response } from "express";
 import logger from "../config/logger";
 
@@ -44,10 +44,21 @@ const unknownEndpoint = (_req: Request, res: Response) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
 
+const checkRole = (roles: string[]): RequestHandler => (req, res, next) => {
+    if(roles.includes(req.body.role)) {
+        next();
+    }
+    return res.status(401).json({
+        message: "Unauthorized (role)",
+        success: false
+    });
+};
+
 export {
   employeeValidator,
   companyValidator,
   loginValidator,
   errorHandler,
   unknownEndpoint,
+  checkRole
 };

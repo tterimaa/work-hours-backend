@@ -3,6 +3,11 @@ export interface IUser {
   email: string;
   password: string;
   role: Role;
+  companyName?: string;
+  employees?: Array<IEmployeeUser>;
+  firstname?: string;
+  lastname?: string;
+  companies?: Array<ICompanyUser>;
   hash: string;
   salt: string;
 }
@@ -26,5 +31,7 @@ export interface IToken {
 export type CompanyUserDTO = Omit<ICompanyUser, "_id" | "hash" | "salt">;
 
 export type EmployeeUserDTO = Omit<IEmployeeUser, "_id" | "hash" | "salt">;
+
+export type UserDTO = Omit<IUser, "_id" | "hash" | "salt">;
 
 type Role = "company" | "employee";

@@ -1,8 +1,8 @@
 import userService from "../src/services/userService";
-import { EmployeeUserDTO } from "types";
+import { UserDTO } from "types";
 import dbHandler from "./db-handler";
 
-const employee: EmployeeUserDTO = {
+const employee: UserDTO = {
   email: "roope@gmail.com",
   password: "salasana",
   role: "employee",
@@ -16,9 +16,13 @@ afterEach(async () => await dbHandler.clearDatabase());
 
 afterAll(async () => await dbHandler.closeDatabase());
 
+afterEach(() => {
+  jest.clearAllMocks()
+});
+
 describe("Registration", () => {
   test("Save valid user", async () => {
-    const newUser = await userService.addEmployee(employee);
+    const newUser = await userService.addUser(employee);
     expect(newUser.email).toBeTruthy();
     expect(newUser.role).toBeTruthy();
     expect(newUser.firstname).toBeTruthy();
@@ -27,14 +31,14 @@ describe("Registration", () => {
   });
 
   test("Find saved user by email", async () => {
-    const newUser = await userService.addEmployee(employee);
-    const found = await userService.findEmployeeByEmail(employee.email);
+    const newUser = await userService.addUser(employee);
+    const found = await userService.findUserByEmail(employee.email);
     expect(found.email).toEqual(newUser.email);
   });
 
   test("Find company fails when trying to find with employee email", async () => {
-    await userService.addEmployee(employee);
-    const promise = userService.findCompanyByEmail(employee.email);
+    await userService.addUser(employee);
+    const promise = userService.findUserByEmail(employee.email);
     expect(promise).rejects.toThrowError();
   });
 });

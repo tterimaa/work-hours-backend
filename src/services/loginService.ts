@@ -15,9 +15,9 @@ const login = async (
 ): Promise<IToken> => {
   let user;
   if (role === "company") {
-    user = await userService.findCompanyByEmail(email);
+    user = await userService.findUserByEmail(email);
   } else if (role === "employee") {
-    user = await userService.findEmployeeByEmail(email);
+    user = await userService.findUserByEmail(email);
   } else throw new Error("Invalid role, validation has failed");
 
   if (passwordIsValid(password, user)) {

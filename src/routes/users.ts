@@ -1,30 +1,52 @@
 import express from "express";
-import passport from "passport";
 import userService from "../services/userService";
 import loginService from "../services/loginService";
 import {
   employeeValidator,
   companyValidator,
   loginValidator,
+  checkRole
 } from "../lib/middleware";
 import logger from "../config/logger";
+import passport from "passport";
 
 const router = express.Router();
 
 router.get(
-  "/protected",
-  passport.authenticate("jwt", { session: false }),
+  "/protected", passport.authenticate("jwt", { session: false }),
   (_req, res, _next) => {
     res.status(200).json({
       success: true,
-      msg: "You are successfully authenticated to this route!",
+      msg: "This route is visible for all authenticated users!",
+    });
+  }
+);
+
+router.get(
+  "/protected-company",
+  passport.authenticate("jwt", { session: false }), checkRole(["company"]),
+  (_req, res, _next) => {
+    res.status(200).json({
+      success: true,
+      msg: "This route is for company users only!",
+    });
+  }
+);
+
+router.get(
+  "/protected-employee",
+  passport.authenticate("jwt", { session: false }), checkRole(["employee"]),
+  (_req, res, _next) => {
+    res.status(200).json({
+      success: true,
+      msg: "This route is for employee users only!",
     });
   }
 );
 
 router.post("/register-employee", employeeValidator, async (req, res, next) => {
   try {
-    const user = await userService.addEmployee(req.body);
+    const user = await userService.addUser(req.body);
     res.status(200).json({ success: true, msg: user });
   } catch (e) {
     return next(e);
@@ -33,7 +55,7 @@ router.post("/register-employee", employeeValidator, async (req, res, next) => {
 
 router.post("/register-company", companyValidator, async (req, res, next) => {
   try {
-    const user = await userService.addCompany(req.body);
+    const user = await userService.addUser(req.body);
     res.status(200).json({ success: true, msg: user });
   } catch (e) {
     return next(e);
