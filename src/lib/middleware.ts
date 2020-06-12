@@ -44,6 +44,7 @@ const unknownEndpoint = (_req: Request, res: Response) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
 
+// TODO: No req.body.role here. Role has to be extracted from token somehow?
 const checkRole = (roles: string[]): RequestHandler => (req, res, next) => {
     if(roles.includes(req.body.role)) {
         next();

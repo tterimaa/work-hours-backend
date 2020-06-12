@@ -4,10 +4,10 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "build": "tsc && cp ./{id_rsa_pub.pem,id_rsa_priv.pem} build/",
     "start": "node build/src/app.js",
-    "dev": "ts-node-dev src/app.ts",
+    "dev": "ts-node-dev .",
     "generateKeypair": "ts-node generateKeypair.ts",
     "lint": "eslint --ext .ts .",
     "lint:fix": "eslint --fix --ext .ts ."
@@ -25,6 +25,7 @@
     "@types/mongoose": "^5.7.18",
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
+    "@types/supertest": "^2.0.9",
     "celebrate": "^12.1.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -44,6 +45,7 @@
     "eslint": "^7.0.0",
     "jest": "^26.0.1",
     "mongodb-memory-server": "^6.6.1",
+    "supertest": "^4.0.2",
     "ts-jest": "^26.0.0",
     "ts-node-dev": "^1.0.0-pre.44",
     "typescript": "^3.8.3"

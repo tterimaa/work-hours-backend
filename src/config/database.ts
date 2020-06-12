@@ -13,36 +13,47 @@ import mongoose = require("mongoose");
  */
 
 const devConnection = process.env.DB_STRING;
-const prodConnection = process.env.DB_STRING_PROD;
-const testConnection = process.env.DB_STRING_TEST;
+// const prodConnection = process.env.DB_STRING_PROD;
+// const testConnection = process.env.DB_STRING_TEST;
+
+mongoose.connect(`${devConnection}`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).catch(e => console.log(e));
+
+mongoose.connection.on("connected", () => {
+  console.log("db connected");
+});
 
 // TODO: Switch case?
 // Connect to the correct environment database
-if (process.env.NODE_ENV === "production") {
-  mongoose.connect(`${prodConnection}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+// if (process.env.NODE_ENV === "production") {
+//   mongoose.connect(`${prodConnection}`, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
 
-  mongoose.connection.on("connected", () => {
-    console.log("Database connected");
-  });
-} else if (process.env.NODE_ENV === "test") {
-  mongoose.connect(`${testConnection}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+//   mongoose.connection.on("connected", () => {
+//     console.log("Database connected");
+//   });
+// } else if (process.env.NODE_ENV === "test") {
+//   mongoose.connect(`${testConnection}`, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   });
 
-  mongoose.connection.on("connected", () => {
-    console.log("Database connected");
-  });
-} else {
-  mongoose.connect(`${devConnection}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+//   mongoose.connection.on("connected", () => {
+//     console.log("Database connected");
+//   });
+// } else {
+//   mongoose
+//     .connect(`${devConnection}`, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     })
+//     .catch((e) => console.log(e));
 
-  mongoose.connection.on("connected", () => {
-    console.log("Database connected");
-  });
-}
+//   mongoose.connection.on("connected", () => {
+//     console.log("Database connected");
+//   });
+// }
