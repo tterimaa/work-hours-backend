@@ -44,15 +44,14 @@ const unknownEndpoint = (_req: Request, res: Response) => {
   res.status(404).send({ error: "unknown endpoint" });
 };
 
-// TODO: No req.body.role here. Role has to be extracted from token somehow?
 const checkRole = (roles: string[]): RequestHandler => (req, res, next) => {
-    if(roles.includes(req.body.role)) {
-        next();
-    }
-    return res.status(401).json({
-        message: "Unauthorized (role)",
-        success: false
-    });
+  const hasRole = roles.find((role) => req.user?.role === role);
+
+  if (!hasRole) {
+    return res.status(401).send({ message: "Unauthrorized (role)"});
+  }
+
+  return next();
 };
 
 export {
@@ -61,5 +60,5 @@ export {
   loginValidator,
   errorHandler,
   unknownEndpoint,
-  checkRole
+  checkRole,
 };

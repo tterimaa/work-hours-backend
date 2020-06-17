@@ -2,11 +2,11 @@ import userService from "../src/services/userService";
 import loginService from "../src/services/loginService";
 import { UserDTO } from "types";
 import dbHandler from "./db-handler";
-import supertest from "supertest";
-import app from "../src/app";
-import logger from "../src/config/logger";
+// import supertest from "supertest";
+// import app from "../src/app";
+// import logger from "../src/config/logger";
 
-const api = supertest(app);
+// const api = supertest(app);
 
 beforeAll(async () => await dbHandler.connect());
 
@@ -45,16 +45,16 @@ describe("Login", () => {
   });
 });
 
-describe("Authorization", () => {
-  test("Auth", async () => {
-    await userService.addUser(employee);
-    const token = await loginService.login(
-      employee.email,
-      employee.password,
-      employee.role
-    );
-    logger.info(token.token);
-    const result = await api.get("/users/protected").set("Authorization", token.token);
-    expect(result.status).toBe(200);
-  });
-});
+// describe("Authorization", () => {
+//   test("Auth", async () => {
+//     await userService.addUser(employee);
+//     const token = await loginService.login(
+//       employee.email,
+//       employee.password,
+//       employee.role
+//     );
+//     logger.info(token.token);
+//     const result = await api.get("/users/protected").set("Authorization", token.token);
+//     expect(result.status).toBe(200);
+//   });
+// });

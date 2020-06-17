@@ -2,7 +2,7 @@ export interface IUser {
   _id: string;
   email: string;
   password: string;
-  role: Role;
+  role: string;
   companyName?: string;
   employees?: Array<IEmployeeUser>;
   firstname?: string;
@@ -33,5 +33,3 @@ export type CompanyUserDTO = Omit<ICompanyUser, "_id" | "hash" | "salt">;
 export type EmployeeUserDTO = Omit<IEmployeeUser, "_id" | "hash" | "salt">;
 
 export type UserDTO = Omit<IUser, "_id" | "hash" | "salt">;
-
-type Role = "company" | "employee";

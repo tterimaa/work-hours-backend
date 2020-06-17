@@ -1,7 +1,7 @@
 import { Schema, model, Document } from "mongoose";
 import { IUser } from "../types";
 
-const documentName = "Company";
+const documentName = "User";
 
 const UserSchema = new Schema({
   email: { type: String, required: true },
@@ -15,5 +15,5 @@ const UserSchema = new Schema({
   salt: String,
 });
 
-const Company = model<IUser & Document>(documentName, UserSchema);
-export default Company;
+const User = model<IUser & Document>(documentName, UserSchema);
+export default User;

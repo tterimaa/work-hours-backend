@@ -6,6 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "build": "tsc && cp ./{id_rsa_pub.pem,id_rsa_priv.pem} build/",
+    "prestart": "npm run build",
     "start": "node build/src/app.js",
     "dev": "ts-node-dev .",
     "generateKeypair": "ts-node generateKeypair.ts",
