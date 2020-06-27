@@ -47,11 +47,7 @@ const unknownEndpoint = (_req: Request, res: Response) => {
 const checkRole = (roles: string[]): RequestHandler => (req, res, next) => {
   const hasRole = roles.find((role) => req.user?.role === role);
 
-  if (!hasRole) {
-    return res.status(401).send({ message: "Unauthrorized (role)"});
-  }
-
-  return next();
+  return hasRole ? next() : res.status(401).send({ message: "Unauthrorized (role)"});
 };
 
 export {
