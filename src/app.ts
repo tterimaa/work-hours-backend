@@ -7,7 +7,6 @@ dotenv.config();
 import "./config/database";
 import morgan from "morgan";
 import { errorHandler, unknownEndpoint } from "./lib/middleware";
-import logger from "./config/logger";
 
 // Create the Express application
 const app = express();
@@ -31,4 +30,4 @@ app.use(unknownEndpoint);
 
 app.use(errorHandler);
 
-app.listen(3000, () => logger.info(`Server listening on port 3000`));
+export default app;
