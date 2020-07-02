@@ -43,7 +43,7 @@ describe("Login", () => {
 });
 
 describe("Authorization", () => {
-  test("Auth", async () => {
+  test("Auth success", async () => {
     await userService.addUser(employee);
     const token = await loginService.login(
       employee.email,
@@ -52,5 +52,16 @@ describe("Authorization", () => {
     );
     const result = await api.get("/users/protected").set("Authorization", token.token);
     expect(result.status).toBe(200);
+  });
+
+    test("Auth failure", async () => {
+      await userService.addUser(employee);
+      const token = await loginService.login(
+        employee.email,
+        employee.password,
+        employee.role
+      );
+      const result = await api.get("/users/protected-company").set("Authorization", token.token);
+      expect(result.status).toBe(401);
   });
 });
