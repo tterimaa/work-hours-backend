@@ -1,6 +1,6 @@
 import userService from "../src/services/userService";
 import loginService from "../src/services/loginService";
-import { UserDTO } from "types";
+import { UserDTO } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 // import supertest from "supertest";
 // import app from "../src/app";

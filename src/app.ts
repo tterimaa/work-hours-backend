@@ -1,13 +1,14 @@
 import express from "express";
 import passport from "passport";
 import configure from "./config/passport";
-import router from "./routes/index";
+import router from "./api/routes/index";
 import dotenv from "dotenv";
 dotenv.config();
 import "./config/database";
 import morgan from "morgan";
-import { errorHandler, unknownEndpoint } from "./lib/middleware";
-import logger from "./config/logger";
+import { errorHandler } from "./api/middlewares/error";
+import { unknownEndpoint } from "./api/middlewares/unknown-endpoint";
+import logger from "./loaders/logger";
 
 // Create the Express application
 const app = express();
