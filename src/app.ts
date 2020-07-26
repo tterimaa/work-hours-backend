@@ -14,8 +14,6 @@ async function startServer() {
     }
     Logger.info(`Server listening on port ${config.port}`);
   });
-
-  return app;
 }
 
 startServer();
