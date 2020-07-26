@@ -1,5 +1,5 @@
 import { Schema, model, Document } from "mongoose";
-import { IUser } from "../types";
+import { IUser } from "../interfaces/IUser";
 
 const documentName = "User";
 

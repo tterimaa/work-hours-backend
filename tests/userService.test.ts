@@ -1,5 +1,5 @@
 import userService from "../src/services/userService";
-import { UserDTO } from "types";
+import { UserDTO } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 
 const employee: UserDTO = {

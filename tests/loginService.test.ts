@@ -1,6 +1,6 @@
 import userService from "../src/services/userService";
 import loginService from "../src/services/loginService";
-import { UserDTO } from "types";
+import { UserDTO } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
 import app from "../src/app";
@@ -50,18 +50,22 @@ describe("Authorization", () => {
       employee.password,
       employee.role
     );
-    const result = await api.get("/users/protected").set("Authorization", token.token);
+    const result = await api
+      .get("/users/protected")
+      .set("Authorization", token.token);
     expect(result.status).toBe(200);
   });
 
-    test("Auth failure", async () => {
-      await userService.addUser(employee);
-      const token = await loginService.login(
-        employee.email,
-        employee.password,
-        employee.role
-      );
-      const result = await api.get("/users/protected-company").set("Authorization", token.token);
-      expect(result.status).toBe(401);
+  test("Auth failure", async () => {
+    await userService.addUser(employee);
+    const token = await loginService.login(
+      employee.email,
+      employee.password,
+      employee.role
+    );
+    const result = await api
+      .get("/users/protected-company")
+      .set("Authorization", token.token);
+    expect(result.status).toBe(401);
   });
 });
