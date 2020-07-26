@@ -8,6 +8,7 @@ import path from "path";
 
 const pathToKey = path.join(__dirname, "../..", "id_rsa_priv.pem");
 const PRIV_KEY = fs.readFileSync(pathToKey, "utf8");
+const TOKEN_EXPIRES = "1d";
 
 /**
  *
@@ -36,10 +37,10 @@ const passwordIsValid = (password: string, user: IUser) => {
 /**
  * @param {*} user - The user document object.  We need this to set the JWT `sub` payload property to the MongoDB user ID
  */
-function issueJWT(user: IUser) {
+const issueJWT = (user: IUser) => {
   const _id = user._id;
 
-  const expiresIn = "1d";
+  const expiresIn = TOKEN_EXPIRES;
 
   const payload = {
     sub: _id,
@@ -55,7 +56,7 @@ function issueJWT(user: IUser) {
     token: "Bearer " + signedToken,
     expires: expiresIn,
   };
-}
+};
 
 const login = async (
   email: string,

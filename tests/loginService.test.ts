@@ -4,7 +4,7 @@ import { UserDTO } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
 import express from "express";
-import configure from "../src/config/passport";
+import configure from "../src/loaders/passport";
 import expressLoader from "../src/loaders/express";
 import passport from "passport";
 

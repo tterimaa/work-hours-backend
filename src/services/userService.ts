@@ -12,7 +12,7 @@ import crypto from "crypto";
  * ALTERNATIVE: It would also be acceptable to just use a hashing algorithm to make a hash of the plain text password.
  * You would then store the hashed password in the database and then re-hash it to verify later (similar to what we do here)
  */
-function genPassword(password: crypto.BinaryLike) {
+const genPassword = (password: crypto.BinaryLike) => {
   const salt = crypto.randomBytes(32).toString("hex");
   const genHash = crypto
     .pbkdf2Sync(password, salt, 10000, 64, "sha512")
@@ -22,7 +22,7 @@ function genPassword(password: crypto.BinaryLike) {
     salt: salt,
     hash: genHash,
   };
-}
+};
 
 const addUser = (user: UserDTO) => {
   const saltHash = genPassword(user.password);
