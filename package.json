@@ -2,7 +2,7 @@
   "name": "jwt-auth-typescript",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.ts",
+  "main": "src/app.ts",
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "build": "tsc && cp ./id_rsa_pub.pem build/ && cp id_rsa_priv.pem build/",
