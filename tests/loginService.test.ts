@@ -3,8 +3,14 @@ import loginService from "../src/services/loginService";
 import { UserDTO } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
-import app from "../src/app";
+import express from "express";
+import configure from "../src/config/passport";
+import expressLoader from "../src/loaders/express";
+import passport from "passport";
 
+const app = express();
+configure(passport);
+expressLoader({ app });
 const api = supertest(app);
 
 beforeAll(async () => await dbHandler.connect());

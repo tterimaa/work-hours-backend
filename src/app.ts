@@ -1,34 +1,32 @@
 import express from "express";
 import passport from "passport";
 import configure from "./config/passport";
-import router from "./api/routes/index";
-import dotenv from "dotenv";
-dotenv.config();
-import "./config/database";
-import morgan from "morgan";
-import { errorHandler } from "./api/middlewares/error";
-import { unknownEndpoint } from "./api/middlewares/unknown-endpoint";
+// import router from "./api/routes/index";
+import config from "./config/index";
+import Logger from "./loaders/logger";
+// import morgan from "morgan";
+// import { errorHandler } from "./api/middlewares/error";
+// import { unknownEndpoint } from "./api/middlewares/unknown-endpoint";
 
 // Create the Express application
-const app = express();
 
-// Pass the global passport object into the configuration function
-configure(passport);
+async function startServer() {
+  const app = express();
 
-// This will initialize the passport object on every request
-app.use(passport.initialize());
+  // Pass the global passport object into the configuration function
+  configure(passport);
 
-// Instead of using body-parser middleware, use the new Express implementation of the same thing
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  await require("./loaders").default({ expressApp: app });
 
-app.use(morgan("tiny"));
+  app.listen(config.port, (err) => {
+    if (err) {
+      Logger.error(err);
+      process.exit(1);
+    }
+    Logger.info(`Server listening on port ${config.port}`);
+  });
 
-// Imports all of the routes from ./routes/index.ts
-app.use(router);
+  return app;
+}
 
-app.use(unknownEndpoint);
-
-app.use(errorHandler);
-
-export default app;
+startServer();

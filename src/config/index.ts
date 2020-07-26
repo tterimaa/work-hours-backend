@@ -7,5 +7,5 @@ if (myEnv.error) throw new Error("Could'nt find .env file");
 
 export default {
   port: parseInt(`${process.env.PORT || 3000}`, 10),
-  dbUrl: process.env.MONGODB_URI,
+  dbUrl: `${process.env.MONGODB_URI}`,
 };

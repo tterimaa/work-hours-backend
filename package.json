@@ -5,6 +5,7 @@
   "main": "src/app.ts",
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
+    "pretest": "npm run build",
     "build": "tsc && cp ./id_rsa_pub.pem build/ && cp id_rsa_priv.pem build/",
     "prestart": "npm run build",
     "start": "node build/src/app.js",
@@ -27,6 +28,7 @@
     "@types/passport": "^1.0.3",
     "@types/passport-jwt": "^3.0.3",
     "celebrate": "^12.1.1",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.7.14",
