@@ -1,6 +1,6 @@
 import userService from "../src/services/userService";
 import loginService from "../src/services/loginService";
-import { UserDTO } from "../src/interfaces/IUser";
+import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
 import express from "express";
@@ -19,7 +19,7 @@ afterEach(async () => await dbHandler.clearDatabase());
 
 afterAll(async () => await dbHandler.closeDatabase());
 
-const employee: UserDTO = {
+const employee: IUser = {
   email: "roope@gmail.com",
   password: "salasana",
   role: "employee",

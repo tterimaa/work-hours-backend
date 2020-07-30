@@ -1,11 +1,11 @@
-import { IUser } from "./IUser";
+import { IUserModel } from "./IUser";
+import { Document } from "mongoose";
 
 export interface IHour {
-  _id: string;
-  employee: IUser;
+  employee: IUserModel["_id"];
   start: Date;
   end: Date;
   // TODO: Method for calculating total, OR int total
 }
 
-export type UserDTO = Omit<IUser, "_id" | "hash" | "salt">;
+export interface IHourModel extends IHour, Document {}

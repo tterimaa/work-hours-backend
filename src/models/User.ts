@@ -1,5 +1,5 @@
-import { Schema, model, Document } from "mongoose";
-import { IUser } from "../interfaces/IUser";
+import { Schema, model } from "mongoose";
+import { IUserModel } from "../interfaces/IUser";
 
 const documentName = "User";
 
@@ -15,5 +15,5 @@ const UserSchema = new Schema({
   salt: String,
 });
 
-const User = model<IUser & Document>(documentName, UserSchema);
+const User = model<IUserModel>(documentName, UserSchema);
 export default User;

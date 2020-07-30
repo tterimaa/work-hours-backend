@@ -1,4 +1,4 @@
-import { UserDTO } from "../interfaces/IUser";
+import { IUser, IUserModel } from "../interfaces/IUser";
 import User from "../models/User";
 import crypto from "crypto";
 
@@ -24,7 +24,7 @@ const genPassword = (password: crypto.BinaryLike) => {
   };
 };
 
-const addUser = (user: UserDTO) => {
+const addUser = (user: IUser) => {
   const saltHash = genPassword(user.password);
 
   const salt = saltHash.salt;
@@ -45,7 +45,7 @@ const addUser = (user: UserDTO) => {
   return newUser.save();
 };
 
-const findUserByEmail = async (companyEmail: string) => {
+const findUserByEmail = async (companyEmail: string): Promise<IUserModel> => {
   const user = await User.findOne({ email: companyEmail });
   if (user) return user;
   else throw new Error("User was not found from db");

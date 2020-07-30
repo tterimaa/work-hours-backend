@@ -1,6 +1,6 @@
 import userService from "./userService";
 import { IToken } from "../interfaces/IToken";
-import { IUser } from "../interfaces/IUser";
+import { IUserModel } from "../interfaces/IUser";
 import crypto from "crypto";
 import jsonwebtoken from "jsonwebtoken";
 import fs from "fs";
@@ -30,14 +30,14 @@ const validPassword = (
   return hash === hashVerify;
 };
 
-const passwordIsValid = (password: string, user: IUser) => {
+const passwordIsValid = (password: string, user: IUserModel) => {
   return validPassword(password, user.hash, user.salt);
 };
 
 /**
  * @param {*} user - The user document object.  We need this to set the JWT `sub` payload property to the MongoDB user ID
  */
-const issueJWT = (user: IUser) => {
+const issueJWT = (user: IUserModel) => {
   const _id = user._id;
 
   const expiresIn = TOKEN_EXPIRES;

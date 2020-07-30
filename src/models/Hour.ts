@@ -1,5 +1,5 @@
-import { Schema, model, Document } from "mongoose";
-import { IHour } from "../interfaces/IHour";
+import { Schema, model } from "mongoose";
+import { IHourModel } from "../interfaces/IHour";
 
 const documentName = "Hour";
 
@@ -12,5 +12,5 @@ const HourSchema = new Schema({
   end: Date,
 });
 
-const Hour = model<IHour & Document>(documentName, HourSchema);
+const Hour = model<IHourModel>(documentName, HourSchema);
 export default Hour;

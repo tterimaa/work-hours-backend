@@ -1,8 +1,8 @@
 import userService from "../src/services/userService";
-import { UserDTO } from "../src/interfaces/IUser";
+import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 
-const employee: UserDTO = {
+const employee: IUser = {
   email: "roope@gmail.com",
   password: "salasana",
   role: "employee",
