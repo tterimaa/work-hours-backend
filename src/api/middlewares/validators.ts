@@ -1,30 +1,42 @@
-import { celebrate, Joi } from "celebrate";
+import { celebrate, Joi, Segments } from "celebrate";
+
+const employeeSchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+  firstname: Joi.string().required(),
+  lastname: Joi.string().required(),
+  role: Joi.string().valid("employee").required(),
+});
+
+const companySchema = Joi.object({
+  email: Joi.string().required(),
+  password: Joi.string().required(),
+  companyName: Joi.string().required(),
+  role: Joi.string().valid("company").required(),
+});
 
 const employeeValidator = celebrate({
-  body: Joi.object({
-    email: Joi.string().required(),
-    password: Joi.string().required(),
-    firstname: Joi.string().required(),
-    lastname: Joi.string().required(),
-    role: Joi.string().valid("employee").required(),
-  }),
+  [Segments.BODY]: employeeSchema,
 });
 
 const companyValidator = celebrate({
-  body: Joi.object({
-    email: Joi.string().required(),
-    password: Joi.string().required(),
-    companyName: Joi.string().required(),
-    role: Joi.string().valid("company").required(),
-  }),
+  [Segments.BODY]: companySchema,
 });
 
 const loginValidator = celebrate({
-  body: Joi.object({
+  [Segments.BODY]: Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),
     role: Joi.string().valid("employee", "company").required(),
   }),
 });
 
-export { employeeValidator, companyValidator, loginValidator };
+const hourValidator = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    employee: Joi.string().required(),
+    start: Joi.string().required(),
+    end: Joi.string().required(),
+  }),
+});
+
+export { employeeValidator, companyValidator, loginValidator, hourValidator };
