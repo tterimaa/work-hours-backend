@@ -10,6 +10,7 @@ const HourSchema = new Schema({
   },
   start: Date,
   end: Date,
+  timeZoneOffset: Number,
 });
 
 const Hour = model<IHourModel>(documentName, HourSchema);
