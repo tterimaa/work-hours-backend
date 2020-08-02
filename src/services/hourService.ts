@@ -16,4 +16,10 @@ const add = async (hour: IHourInput) => {
   return newHour.save();
 };
 
-export default { add };
+const getHours = async ({ userId }: any) => {
+  console.log(userId);
+  const hours = await Hour.findOne({ employee: userId });
+  return hours;
+};
+
+export default { add, getHours };
