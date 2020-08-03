@@ -16,7 +16,8 @@ export default (app: Router) => {
     hourValidator,
     async (req, res, next) => {
       try {
-        const hour = await hourService.add(req.body);
+        if (!req.user) throw new Error("Invalid user in request");
+        const hour = await hourService.add(req.body, req.user);
         res.status(200).json({
           success: true,
           msg: hour,
@@ -33,7 +34,8 @@ export default (app: Router) => {
     checkRole(["employee"]),
     async (req, res, next) => {
       try {
-        const hours = await hourService.getHours(req.body);
+        if (!req.user) throw new Error("Invalid user in request");
+        const hours = await hourService.getHours(req.user);
         res.status(200).json({
           success: true,
           msg: hours,

@@ -1,6 +1,7 @@
 declare namespace Express {
   // eslint-disable-next-line @typescript-eslint/interface-name-prefix
-  export interface User {
-    role?: string;
+  interface User {
+    _id: string;
+    role: string;
   }
 }

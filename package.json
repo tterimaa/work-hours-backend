@@ -38,6 +38,7 @@
     "winston": "^3.2.1"
   },
   "devDependencies": {
+    "@types/express-jwt": "0.0.42",
     "@types/hapi__joi": "^17.1.2",
     "@types/jest": "^25.2.3",
     "@types/morgan": "^1.9.0",
