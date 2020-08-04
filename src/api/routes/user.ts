@@ -7,8 +7,8 @@ import {
   loginValidator,
 } from "../middlewares/validators";
 import { checkRole } from "../middlewares/auth";
-import logger from "../../loaders/logger";
 import passport from "passport";
+import asyncHandler from "express-async-handler";
 
 const route = Router();
 
@@ -53,37 +53,37 @@ export default (app: Router) => {
   route.post(
     "/register-employee",
     employeeValidator,
-    async (req, res, next) => {
-      try {
-        const user = await userService.addUser(req.body);
-        res.status(200).json({ success: true, msg: user });
-      } catch (e) {
-        return next(e);
-      }
-    }
+    asyncHandler(async (req, res, next) => {
+      const user = await userService
+        .addUser(req.body)
+        .catch((err) => next(err));
+      res.status(200).json({ success: true, msg: user });
+    })
   );
 
-  route.post("/register-company", companyValidator, async (req, res, next) => {
-    try {
-      const user = await userService.addUser(req.body);
+  route.post(
+    "/register-company",
+    companyValidator,
+    asyncHandler(async (req, res, next) => {
+      const user = await userService
+        .addUser(req.body)
+        .catch((err) => next(err));
       res.status(200).json({ success: true, msg: user });
-    } catch (e) {
-      return next(e);
-    }
-  });
+    })
+  );
 
-  route.post("/login", loginValidator, async (req, res, next) => {
-    try {
+  route.post(
+    "/login",
+    loginValidator,
+    asyncHandler(async (req, res, _next) => {
       const { email, password, role } = req.body;
       const tokenObject = await loginService.login(email, password, role);
+
       res.status(200).json({
         success: true,
         token: tokenObject.token,
         expires: tokenObject.expires,
       });
-    } catch (e) {
-      logger.error(e);
-      return next(e);
-    }
-  });
+    })
+  );
 };

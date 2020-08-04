@@ -3,6 +3,7 @@ import passport from "passport";
 import { checkRole } from "../middlewares/auth";
 import { hourValidator } from "../middlewares/validators";
 import hourService from "../../services/hourService";
+import asyncHandler from "express-async-handler";
 
 const route = Router();
 
@@ -14,35 +15,27 @@ export default (app: Router) => {
     passport.authenticate("jwt", { session: false }),
     checkRole(["employee"]),
     hourValidator,
-    async (req, res, next) => {
-      try {
-        if (!req.user) throw new Error("Invalid user in request");
-        const hour = await hourService.add(req.body, req.user);
-        res.status(200).json({
-          success: true,
-          msg: hour,
-        });
-      } catch (e) {
-        return next(e);
-      }
-    }
+    asyncHandler(async (req, res, _next) => {
+      if (!req.user) throw new Error("Invalid user in request");
+      const hour = await hourService.add(req.body, req.user);
+      res.status(200).json({
+        success: true,
+        msg: hour,
+      });
+    })
   );
 
   route.get(
     "/get",
     passport.authenticate("jwt", { session: false }),
     checkRole(["employee"]),
-    async (req, res, next) => {
-      try {
-        if (!req.user) throw new Error("Invalid user in request");
-        const hours = await hourService.getHours(req.user);
-        res.status(200).json({
-          success: true,
-          msg: hours,
-        });
-      } catch (e) {
-        return next(e);
-      }
-    }
+    asyncHandler(async (req, res, _next) => {
+      if (!req.user) throw new Error("Invalid user in request");
+      const hours = await hourService.getHours(req.user);
+      res.status(200).json({
+        success: true,
+        msg: hours,
+      });
+    })
   );
 };
