@@ -31,12 +31,15 @@ const loginValidator = celebrate({
   }),
 });
 
-// TODO: Validate date string format
 const hourValidator = celebrate({
   [Segments.BODY]: Joi.object().keys({
-    start: Joi.string().required(),
-    end: Joi.string().required(),
-    timeZoneOffset: Joi.number().required(),
+    day: Joi.number().required(),
+    month: Joi.number().required(),
+    year: Joi.number().required(),
+    startHour: Joi.number().required(),
+    startMin: Joi.number().required(),
+    endHour: Joi.number().required(),
+    endMin: Joi.number().required(),
   }),
 });
 

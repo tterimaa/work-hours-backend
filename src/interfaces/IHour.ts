@@ -3,17 +3,23 @@ import { Document } from "mongoose";
 
 export interface IHour {
   employeeId: IUserModel["_id"];
-  start: Date;
-  end: Date;
-  timeZoneOffset: number;
-  // TODO: Method for calculating total, OR int total
+  day: number;
+  month: number;
+  year: number;
+  startHour: number;
+  startMin: number;
+  endHour: number;
+  endMin: number;
 }
 
 export interface IHourModel extends IHour, Document {}
 
 export interface IHourInput {
-  employeeId: IUserModel["_id"];
-  start: string;
-  end: string;
-  timeZoneOffset: number;
+  day: number;
+  month: number;
+  year: number;
+  startHour: number;
+  startMin: number;
+  endHour: number;
+  endMin: number;
 }

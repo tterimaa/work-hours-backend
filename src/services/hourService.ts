@@ -2,13 +2,15 @@ import Hour from "../models/Hour";
 import { IHourInput } from "interfaces/IHour";
 
 const add = async (hour: IHourInput, user: Express.User) => {
-  const start = new Date(hour.start);
-  const end = new Date(hour.end);
   const newHour = new Hour({
     employee: user._id,
-    start: start,
-    end: end,
-    timeZoneOffset: hour.timeZoneOffset,
+    day: hour.day,
+    month: hour.month,
+    year: hour.year,
+    startHour: hour.startHour,
+    startMin: hour.startMin,
+    endHour: hour.endHour,
+    endMin: hour.endMin,
   });
   return newHour.save();
 };
