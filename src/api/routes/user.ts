@@ -1,6 +1,6 @@
 import { Router } from "express";
-import userService from "../../services/userService";
-import loginService from "../../services/loginService";
+import userService from "../../services/user-service";
+import loginService from "../../services/login-service";
 import {
   employeeValidator,
   companyValidator,

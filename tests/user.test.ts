@@ -1,4 +1,4 @@
-import userService from "../src/services/userService";
+import userService from "../src/services/user-service";
 import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 

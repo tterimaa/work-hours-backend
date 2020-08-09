@@ -1,4 +1,4 @@
-import userService from "./userService";
+import userService from "./user-service";
 import { IToken } from "../interfaces/IToken";
 import { IUserModel } from "../interfaces/IUser";
 import crypto from "crypto";

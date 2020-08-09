@@ -1,5 +1,5 @@
-import userService from "../src/services/userService";
-import loginService from "../src/services/loginService";
+import userService from "../src/services/user-service";
+import loginService from "../src/services/login-service";
 import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
