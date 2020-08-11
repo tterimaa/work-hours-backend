@@ -53,10 +53,8 @@ export default (app: Router) => {
   route.post(
     "/register-employee",
     employeeValidator,
-    asyncHandler(async (req, res, next) => {
-      const user = await registrationService
-        .registerUser(req.body)
-        .catch((err) => next(err));
+    asyncHandler(async (req, res, _next) => {
+      const user = await registrationService.registerUser(req.body);
       res.status(200).json({ success: true, msg: user });
     })
   );
@@ -76,8 +74,8 @@ export default (app: Router) => {
     "/login",
     loginValidator,
     asyncHandler(async (req, res, _next) => {
-      const { email, password, role } = req.body;
-      const tokenObject = await loginService.login(email, password, role);
+      const { email, password } = req.body;
+      const tokenObject = await loginService.login(email, password);
 
       res.status(200).json({
         success: true,

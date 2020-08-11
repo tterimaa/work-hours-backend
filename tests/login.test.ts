@@ -30,20 +30,12 @@ const employee: IUser = {
 describe("Login", () => {
   test("Login user", async () => {
     await registrationService.registerUser(employee);
-    const token = await loginService.login(
-      employee.email,
-      employee.password,
-      employee.role
-    );
+    const token = await loginService.login(employee.email, employee.password);
     expect(token.token).toBeTruthy();
     expect(token.expires).toBeTruthy();
   });
   test("Login user fails when no user is added", () => {
-    const promise = loginService.login(
-      employee.email,
-      employee.password,
-      employee.role
-    );
+    const promise = loginService.login(employee.email, employee.password);
     expect(promise).rejects.toThrowError();
   });
 });
@@ -51,11 +43,7 @@ describe("Login", () => {
 describe("Authorization", () => {
   test("Auth success", async () => {
     await registrationService.registerUser(employee);
-    const token = await loginService.login(
-      employee.email,
-      employee.password,
-      employee.role
-    );
+    const token = await loginService.login(employee.email, employee.password);
     const result = await api
       .get("/users/protected")
       .set("Authorization", token.token);
@@ -64,11 +52,7 @@ describe("Authorization", () => {
 
   test("Auth failure", async () => {
     await registrationService.registerUser(employee);
-    const token = await loginService.login(
-      employee.email,
-      employee.password,
-      employee.role
-    );
+    const token = await loginService.login(employee.email, employee.password);
     const result = await api
       .get("/users/protected-company")
       .set("Authorization", token.token);

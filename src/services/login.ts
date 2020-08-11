@@ -35,13 +35,8 @@ const issueJWT = (user: IUserModel) => {
   };
 };
 
-const login = async (
-  email: string,
-  password: string,
-  role: string
-): Promise<IToken> => {
+const login = async (email: string, password: string): Promise<IToken> => {
   const user = await userService.findUserByEmail(email);
-  if (user.role !== role) throw new Error("Invalid role");
 
   if (await passwordIsValid(password, user)) {
     return issueJWT(user);
