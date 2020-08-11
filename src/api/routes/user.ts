@@ -1,6 +1,6 @@
 import { Router } from "express";
-import userService from "../../services/user-service";
-import loginService from "../../services/login-service";
+import registrationService from "../../services/registration";
+import loginService from "../../services/login";
 import {
   employeeValidator,
   companyValidator,
@@ -54,8 +54,8 @@ export default (app: Router) => {
     "/register-employee",
     employeeValidator,
     asyncHandler(async (req, res, next) => {
-      const user = await userService
-        .addUser(req.body)
+      const user = await registrationService
+        .registerUser(req.body)
         .catch((err) => next(err));
       res.status(200).json({ success: true, msg: user });
     })
@@ -65,8 +65,8 @@ export default (app: Router) => {
     "/register-company",
     companyValidator,
     asyncHandler(async (req, res, next) => {
-      const user = await userService
-        .addUser(req.body)
+      const user = await registrationService
+        .registerUser(req.body)
         .catch((err) => next(err));
       res.status(200).json({ success: true, msg: user });
     })

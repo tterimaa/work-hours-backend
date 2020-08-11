@@ -1,5 +1,5 @@
-import userService from "../src/services/user-service";
-import loginService from "../src/services/login-service";
+import registrationService from "../src/services/registration";
+import loginService from "../src/services/login";
 import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
@@ -29,7 +29,7 @@ const employee: IUser = {
 
 describe("Login", () => {
   test("Login user", async () => {
-    await userService.addUser(employee);
+    await registrationService.registerUser(employee);
     const token = await loginService.login(
       employee.email,
       employee.password,
@@ -50,7 +50,7 @@ describe("Login", () => {
 
 describe("Authorization", () => {
   test("Auth success", async () => {
-    await userService.addUser(employee);
+    await registrationService.registerUser(employee);
     const token = await loginService.login(
       employee.email,
       employee.password,
@@ -63,7 +63,7 @@ describe("Authorization", () => {
   });
 
   test("Auth failure", async () => {
-    await userService.addUser(employee);
+    await registrationService.registerUser(employee);
     const token = await loginService.login(
       employee.email,
       employee.password,

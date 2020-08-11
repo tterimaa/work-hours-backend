@@ -1,4 +1,5 @@
-import userService from "../src/services/user-service";
+import registrationService from "../src/services/registration";
+import userService from "../src/services/user";
 import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 
@@ -18,7 +19,7 @@ afterAll(async () => await dbHandler.closeDatabase());
 
 describe("Registration", () => {
   test("Save valid user", async () => {
-    const newUser = await userService.addUser(employee);
+    const newUser = await registrationService.registerUser(employee);
     expect(newUser.email).toBeTruthy();
     expect(newUser.role).toBeTruthy();
     expect(newUser.firstname).toBeTruthy();
@@ -27,13 +28,13 @@ describe("Registration", () => {
   });
 
   test("Find saved user by email", async () => {
-    const newUser = await userService.addUser(employee);
+    const newUser = await registrationService.registerUser(employee);
     const found = await userService.findUserByEmail(employee.email);
     expect(found.email).toEqual(newUser.email);
   });
 
   test("Find company fails when trying to find with employee email", async () => {
-    await userService.addUser(employee);
+    await registrationService.registerUser(employee);
     const promise = userService.findUserByEmail(employee.email);
     expect(promise).rejects.toThrowError();
   });

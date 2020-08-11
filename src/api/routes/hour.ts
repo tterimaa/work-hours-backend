@@ -2,7 +2,7 @@ import { Router } from "express";
 import passport from "passport";
 import { checkRole } from "../middlewares/auth";
 import { hourValidator } from "../middlewares/validators";
-import hourService from "../../services/hour-service";
+import hourService from "../../services/hour";
 import asyncHandler from "express-async-handler";
 
 const route = Router();

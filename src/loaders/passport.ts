@@ -18,7 +18,7 @@ export default (passport: PassportStatic) => {
     new JwtStrategy(options, function (jwtPayload, done) {
       User.findOne({ _id: jwtPayload.sub }, function (err, user) {
         if (err) {
-          return done(err, false);
+          return done(err);
         }
         if (user) {
           return done(null, user);
