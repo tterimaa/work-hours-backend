@@ -11,8 +11,10 @@ const UserSchema = new Schema({
   companyName: String,
   companies: [{ type: Schema.Types.ObjectId, ref: "User" }],
   employees: [{ type: Schema.Types.ObjectId, ref: "User" }],
-  hash: String,
-  salt: String,
+  hash: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = model<IUserModel>(documentName, UserSchema);
