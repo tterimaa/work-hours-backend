@@ -1,6 +1,5 @@
 import registrationService from "../src/services/registration";
 import loginService from "../src/services/login";
-import { IUser } from "../src/interfaces/IUser";
 import dbHandler from "./db-handler";
 import supertest from "supertest";
 import express from "express";
@@ -19,7 +18,7 @@ afterEach(async () => await dbHandler.clearDatabase());
 
 afterAll(async () => await dbHandler.closeDatabase());
 
-const employee: IUser = {
+const employee = {
   email: "roope@gmail.com",
   password: "salasana",
   role: "employee",
@@ -29,7 +28,7 @@ const employee: IUser = {
 
 describe("Login", () => {
   test("Login user", async () => {
-    await registrationService.registerUser(employee);
+    await registrationService.registerEmployee(employee);
     const token = await loginService.login(employee.email, employee.password);
     expect(token.token).toBeTruthy();
     expect(token.expires).toBeTruthy();
@@ -42,7 +41,7 @@ describe("Login", () => {
 
 describe("Authorization", () => {
   test("Auth success", async () => {
-    await registrationService.registerUser(employee);
+    await registrationService.registerEmployee(employee);
     const token = await loginService.login(employee.email, employee.password);
     const result = await api
       .get("/users/protected")
@@ -51,7 +50,7 @@ describe("Authorization", () => {
   });
 
   test("Auth failure", async () => {
-    await registrationService.registerUser(employee);
+    await registrationService.registerEmployee(employee);
     const token = await loginService.login(employee.email, employee.password);
     const result = await api
       .get("/users/protected-company")

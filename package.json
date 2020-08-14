@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest --verbose --runInBand --detectOpenHandles",
     "pretest": "npm run build",
-    "build": "tsc && cp ./id_rsa_pub.pem build/ && cp id_rsa_priv.pem build/",
+    "build": "rm -rf build && tsc && cp ./id_rsa_pub.pem build/ && cp id_rsa_priv.pem build/",
     "prestart": "npm run build",
     "start": "node build/src/app.js",
     "dev": "ts-node-dev .",

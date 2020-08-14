@@ -34,7 +34,9 @@ const registerCompany = async (user: IAccount & ICompany) => {
   return { account, company };
 };
 
-const registerEmployee = async (user: IAccount & IEmployee) => {
+const registerEmployee = async (
+  user: IAccount & Omit<IEmployee, "account">
+) => {
   const hash = await genPassword(user.password);
 
   const newAccount = new Account({

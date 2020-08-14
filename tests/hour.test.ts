@@ -1,8 +1,7 @@
 import Hour from "../src/models/Hour";
-import User from "../src/models/User";
+import User from "../src/models/Account";
 import { Error } from "mongoose";
 import dbHandler from "./db-handler";
-import { IUser } from "../src/interfaces/IUser";
 
 beforeAll(async () => await dbHandler.connect());
 
@@ -10,7 +9,7 @@ afterEach(async () => await dbHandler.clearDatabase());
 
 afterAll(async () => await dbHandler.closeDatabase());
 
-const employee: IUser = {
+const employee = {
   email: "roope@gmail.com",
   password: "salasana",
   role: "employee",
