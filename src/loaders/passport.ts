@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import fs from "fs";
 import path from "path";
 import { PassportStatic } from "passport";
-import User from "../models/User";
+import Account from "../models/Account";
 
 const pathToKey = path.join(__dirname, "../..", "id_rsa_pub.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
@@ -16,7 +16,7 @@ const options = {
 export default (passport: PassportStatic) => {
   passport.use(
     new JwtStrategy(options, function (jwtPayload, done) {
-      User.findOne({ _id: jwtPayload.sub }, function (err, user) {
+      Account.findOne({ _id: jwtPayload.sub }, function (err, user) {
         if (err) {
           return done(err);
         }

@@ -1,6 +1,6 @@
-import userService from "./user";
+import accountService from "./account";
 import { IToken } from "../interfaces/IToken";
-import { IUserModel } from "../interfaces/IUser";
+import { IAccountModel } from "../interfaces/IAccount";
 import bcrypt from "bcrypt";
 import jsonwebtoken from "jsonwebtoken";
 import fs from "fs";
@@ -10,12 +10,12 @@ const pathToKey = path.join(__dirname, "../..", "id_rsa_priv.pem");
 const PRIV_KEY = fs.readFileSync(pathToKey, "utf8");
 const TOKEN_EXPIRES = "1d";
 
-const passwordIsValid = (password: string, user: IUserModel) => {
-  return bcrypt.compare(password, user.hash);
+const passwordIsValid = (password: string, account: IAccountModel) => {
+  return bcrypt.compare(password, account.hash);
 };
 
-const issueJWT = (user: IUserModel) => {
-  const _id = user._id;
+const issueJWT = (account: IAccountModel) => {
+  const _id = account._id;
 
   const expiresIn = TOKEN_EXPIRES;
 
@@ -36,10 +36,10 @@ const issueJWT = (user: IUserModel) => {
 };
 
 const login = async (email: string, password: string): Promise<IToken> => {
-  const user = await userService.findUserByEmail(email);
+  const account = await accountService.findAccountByEmail(email);
 
-  if (await passwordIsValid(password, user)) {
-    return issueJWT(user);
+  if (await passwordIsValid(password, account)) {
+    return issueJWT(account);
   } else throw new Error("Wrong password");
 };
 

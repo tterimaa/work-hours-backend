@@ -1,8 +1,8 @@
-import { IUserModel } from "./IUser";
+import { IAccountModel } from "./IAccount";
 import { Document } from "mongoose";
 
 export interface IHour {
-  employeeId: IUserModel["_id"];
+  employeeId: IAccountModel["_id"];
   day: number;
   month: number;
   year: number;

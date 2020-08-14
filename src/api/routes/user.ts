@@ -54,18 +54,18 @@ export default (app: Router) => {
     "/register-employee",
     employeeValidator,
     asyncHandler(async (req, res, _next) => {
-      const user = await registrationService.registerUser(req.body);
-      res.status(200).json({ success: true, msg: user });
+      const { account, employee } = await registrationService.registerEmployee(
+        req.body
+      );
+      res.status(200).json({ success: true, msg: { account, employee } });
     })
   );
 
   route.post(
     "/register-company",
     companyValidator,
-    asyncHandler(async (req, res, next) => {
-      const user = await registrationService
-        .registerUser(req.body)
-        .catch((err) => next(err));
+    asyncHandler(async (req, res, _next) => {
+      const user = await registrationService.registerCompany(req.body);
       res.status(200).json({ success: true, msg: user });
     })
   );
