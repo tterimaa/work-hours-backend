@@ -29,7 +29,9 @@ describe("Registration", () => {
   });
 
   test("Find saved user by email", async () => {
-    const { account } = await registrationService.registerEmployee(employeeInput);
+    const { account } = await registrationService.registerEmployee(
+      employeeInput
+    );
     const found = await accountService.findAccountByEmail(employeeInput.email);
     expect(found.email).toEqual(account.email);
   });

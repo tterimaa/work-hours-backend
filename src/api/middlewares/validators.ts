@@ -2,7 +2,7 @@ import { celebrate, Joi, Segments } from "celebrate";
 
 const employeeSchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  password: Joi.string().required().min(8).max(60),
   firstname: Joi.string().required(),
   lastname: Joi.string().required(),
   role: Joi.string().valid("employee").required(),
@@ -10,7 +10,7 @@ const employeeSchema = Joi.object({
 
 const companySchema = Joi.object({
   email: Joi.string().email().required(),
-  password: Joi.string().required(),
+  password: Joi.string().required().min(8).max(60),
   companyName: Joi.string().required(),
   role: Joi.string().valid("company").required(),
 });
