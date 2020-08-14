@@ -16,7 +16,7 @@ const add = async (hour: IHourInput, user: Express.User) => {
 };
 
 const getHours = async (user: Express.User) => {
-  const hours = await Hour.findOne({ employee: user._id });
+  const hours = await Hour.find({ employee: user._id });
   return hours;
 };
 
