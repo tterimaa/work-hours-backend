@@ -5,5 +5,6 @@ export default async (): Promise<void> => {
   await mongoose.connect(config.dbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   });
 };
