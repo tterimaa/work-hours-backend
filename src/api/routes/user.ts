@@ -50,6 +50,14 @@ export default (app: Router) => {
     }
   );
 
+  route.get(
+    "/get-user",
+    passport.authenticate("jwt", { session: false }),
+    (req, res, _next) => {
+      res.status(200).json(req.user);
+    }
+  );
+
   route.post(
     "/register-employee",
     employeeValidator,
