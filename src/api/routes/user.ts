@@ -1,6 +1,7 @@
 import { Router } from "express";
 import registrationService from "../../services/registration";
 import loginService from "../../services/login";
+import accountService from "../../services/account";
 import {
   employeeValidator,
   companyValidator,
@@ -53,9 +54,12 @@ export default (app: Router) => {
   route.get(
     "/get-user",
     passport.authenticate("jwt", { session: false }),
-    (req, res, _next) => {
-      res.status(200).json(req.user);
-    }
+    asyncHandler(async (req, res, _next) => {
+      const accountWithDetails = await accountService.getAdditionalInformation(
+        req.user?._id
+      );
+      res.status(200).json(accountWithDetails);
+    })
   );
 
   route.post(

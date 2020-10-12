@@ -6,10 +6,10 @@ const documentName = "Company";
 const CompanySchema = new Schema({
   account: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Account",
   },
   companyName: String,
-  employees: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  employees: [{ type: Schema.Types.ObjectId, ref: "Account" }],
 });
 
 const Company = model<ICompanyModel>(documentName, CompanySchema);

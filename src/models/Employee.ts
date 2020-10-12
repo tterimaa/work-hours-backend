@@ -6,11 +6,11 @@ const documentName = "Employee";
 const EmployeeSchema = new Schema({
   account: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Account",
   },
   firstname: String,
   lastname: String,
-  companies: [{ type: Schema.Types.ObjectId, ref: "Company" }],
+  companies: [{ type: Schema.Types.ObjectId, ref: "Account" }],
 });
 
 const Company = model<IEmployeeModel>(documentName, EmployeeSchema);
