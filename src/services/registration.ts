@@ -8,53 +8,59 @@ import { IEmployee } from "interfaces/IEmployee";
 
 const saltRounds = 12;
 
+type AccountInput = Omit<IAccount, "requests">;
+
+type EmployeeInput = AccountInput & Omit<IEmployee, "account" | "companies">;
+
+type CompanyInput = AccountInput & Omit<ICompany, "account" | "employees">;
+
 const genPassword = (password: string) => {
   return bcrypt.hash(password, saltRounds);
 };
 
-const registerCompany = async (user: IAccount & ICompany) => {
-  const hash = await genPassword(user.password);
+const registerAccount = async (account: AccountInput) => {
+  const hash = await genPassword(account.password);
 
-  const newAccount = new Account({
-    email: user.email,
-    role: user.role,
+  return await new Account({
+    email: account.email,
+    role: account.role,
     hash: hash,
+  }).save();
+};
+
+const registerCompany = async (companyInfo: CompanyInput) => {
+  const account = await registerAccount({
+    email: companyInfo.email,
+    password: companyInfo.password,
+    role: companyInfo.role,
+  }).catch((err) => {
+    throw new Error(err);
   });
 
-  const account = await newAccount.save();
-
-  const newCompany = new Company({
+  const company = await new Company({
     account: account._id,
-    companyName: user.companyName,
-    employees: user.employees,
-  });
-
-  const company = await newCompany.save();
+    companyName: companyInfo.companyName,
+    employees: [],
+  }).save();
 
   return { account, company };
 };
 
-const registerEmployee = async (
-  user: IAccount & Omit<IEmployee, "account">
-) => {
-  const hash = await genPassword(user.password);
-
-  const newAccount = new Account({
-    email: user.email,
-    role: user.role,
-    hash: hash,
+const registerEmployee = async (employeeInfo: EmployeeInput) => {
+  const account = await registerAccount({
+    email: employeeInfo.email,
+    password: employeeInfo.password,
+    role: employeeInfo.role,
+  }).catch((err) => {
+    throw new Error(err);
   });
 
-  const account = await newAccount.save();
-
-  const newEmployee = new Employee({
+  const employee = await new Employee({
     account: account._id,
-    firstname: user.firstname,
-    lastname: user.lastname,
-    companies: user.companies,
-  });
-
-  const employee = await newEmployee.save();
+    firstname: employeeInfo.firstname,
+    lastname: employeeInfo.lastname,
+    companies: [],
+  }).save();
 
   return { account, employee };
 };

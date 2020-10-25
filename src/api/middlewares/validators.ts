@@ -42,4 +42,16 @@ const hourValidator = celebrate({
   }),
 });
 
-export { employeeValidator, companyValidator, loginValidator, hourValidator };
+const requestValidator = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    toId: Joi.string().required(),
+  }),
+});
+
+export {
+  employeeValidator,
+  companyValidator,
+  loginValidator,
+  hourValidator,
+  requestValidator,
+};

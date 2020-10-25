@@ -2,10 +2,12 @@ import { Router } from "express";
 import registrationService from "../../services/registration";
 import loginService from "../../services/login";
 import accountService from "../../services/account";
+import requestService from "../../services/request";
 import {
   employeeValidator,
   companyValidator,
   loginValidator,
+  requestValidator,
 } from "../middlewares/validators";
 import { checkRole } from "../middlewares/auth";
 import passport from "passport";
@@ -56,9 +58,31 @@ export default (app: Router) => {
     passport.authenticate("jwt", { session: false }),
     asyncHandler(async (req, res, _next) => {
       const accountWithDetails = await accountService.getAdditionalInformation(
-        req.user?._id
+        req.user!._id
       );
       res.status(200).json(accountWithDetails);
+    })
+  );
+
+  route.post(
+    "/find-user",
+    passport.authenticate("jwt", { session: false }),
+    asyncHandler(async (req, res, _next) => {
+      const account = await accountService.findAccountByEmail(req.body.email);
+      const accountWithDetails = await accountService.getAdditionalInformation(account._id); 
+      res.status(200).json(accountWithDetails);
+    })
+  );
+
+  route.post(
+    "/send-request",
+    requestValidator,
+    passport.authenticate("jwt", { session: false }),
+    asyncHandler(async (req, res, _next) => {
+      await requestService.sendRequest(req.user!._id, req.body.toId);
+      res.status(200).json({
+        success: true,
+      });
     })
   );
 

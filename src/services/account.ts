@@ -11,7 +11,7 @@ const findAccountByEmail = async (email: string): Promise<IAccountModel> => {
 };
 
 const getAdditionalInformation = async (
-  id: string | undefined
+  id: string
 ): Promise<IEmployeeModel | ICompanyModel> => {
   const userAccount = await Account.findOne({ _id: id }).orFail();
   switch (userAccount.role) {
