@@ -5,7 +5,12 @@ import Logger from "./loaders/logger";
 async function startServer() {
   const app = express();
 
-  await require("./loaders").default({ expressApp: app });
+  await require("./loaders")
+    .default({ expressApp: app })
+    .catch((err: Error) => {
+      Logger.error(err);
+      process.exit(1);
+    });
 
   app.listen(config.port, (err) => {
     if (err) {
