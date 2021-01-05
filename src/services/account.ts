@@ -6,7 +6,9 @@ import Account from "../models/Account";
 import Employee from "../models/Employee";
 
 const findAccountByEmail = async (email: string): Promise<IAccountModel> => {
-  const account = await Account.findOne({ email: email }).orFail();
+  const account = await Account.findOne({ email: email }).orFail(() => {
+    throw new Error(`Account with email ${email} was not found`);
+  });
   return account;
 };
 
