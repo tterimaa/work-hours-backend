@@ -69,7 +69,9 @@ export default (app: Router) => {
     passport.authenticate("jwt", { session: false }),
     asyncHandler(async (req, res, _next) => {
       const account = await accountService.findAccountByEmail(req.body.email);
-      const accountWithDetails = await accountService.getAdditionalInformation(account._id); 
+      const accountWithDetails = await accountService.getAdditionalInformation(
+        account._id
+      );
       res.status(200).json(accountWithDetails);
     })
   );
@@ -82,6 +84,20 @@ export default (app: Router) => {
       await requestService.sendRequest(req.user!._id, req.body.toId);
       res.status(200).json({
         success: true,
+      });
+    })
+  );
+
+  route.get(
+    "/get-requests-to/:toId",
+    passport.authenticate("jwt", { session: false }),
+    asyncHandler(async (req, res, _next) => {
+      const incomingRequests = await requestService.getIncoming(
+        req.params.toId
+      );
+      res.status(200).json({
+        success: true,
+        incomingRequests,
       });
     })
   );
