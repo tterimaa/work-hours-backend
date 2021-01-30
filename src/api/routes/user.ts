@@ -103,6 +103,17 @@ export default (app: Router) => {
   );
 
   route.post(
+    "/accept-request/:fromId",
+    passport.authenticate("jwt", { session: false }),
+    asyncHandler(async (req, res, _next) => {
+      await requestService.acceptRequest(req.params.fromId, req.user!._id);
+      res.status(200).json({
+        success: true,
+      });
+    })
+  );
+
+  route.post(
     "/register-employee",
     employeeValidator,
     asyncHandler(async (req, res, _next) => {

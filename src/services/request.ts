@@ -1,5 +1,7 @@
+import Employee from "../models/Employee";
 import Account from "../models/Account";
 import Request from "../models/Request";
+import Company from "../models/Company";
 
 enum Status {
   PENDING = 1,
@@ -28,4 +30,20 @@ const getIncoming = async (toId: string) => {
   return accounts;
 };
 
-export default { sendRequest, getIncoming };
+const acceptRequest = async (fromId: string, userId: string) => {
+  const request = await Request.findOne({ to: userId, from: fromId }).orFail();
+  // Company requests employee: to = employee, from = company
+  const employee = await Employee.findOne({
+    account: request.to.toString(),
+  }).orFail();
+  const company = await Company.findOne({
+    account: request.from.toString(),
+  }).orFail();
+  employee.companies.push(fromId);
+  company.employees.push(userId);
+  employee.save();
+  company.save();
+  request.remove();
+};
+
+export default { sendRequest, getIncoming, acceptRequest };

@@ -21,5 +21,5 @@ const RequestSchema = new Schema({
   },
 });
 
-const Company = model<IRequestModel>(documentName, RequestSchema);
-export default Company;
+const Request = model<IRequestModel>(documentName, RequestSchema);
+export default Request;

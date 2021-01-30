@@ -13,5 +13,5 @@ const EmployeeSchema = new Schema({
   companies: [{ type: Schema.Types.ObjectId, ref: "Account" }],
 });
 
-const Company = model<IEmployeeModel>(documentName, EmployeeSchema);
-export default Company;
+const Employee = model<IEmployeeModel>(documentName, EmployeeSchema);
+export default Employee;
