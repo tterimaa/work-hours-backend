@@ -106,7 +106,10 @@ export default (app: Router) => {
     "/accept-request/:fromId",
     passport.authenticate("jwt", { session: false }),
     asyncHandler(async (req, res, _next) => {
-      await requestService.acceptRequest(req.params.fromId, req.user!._id);
+      await requestService.acceptRequest(
+        req.params.fromId,
+        req.user!._id.toString()
+      );
       res.status(200).json({
         success: true,
       });

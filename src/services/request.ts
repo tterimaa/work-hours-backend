@@ -39,8 +39,10 @@ const acceptRequest = async (fromId: string, userId: string) => {
   const company = await Company.findOne({
     account: request.from.toString(),
   }).orFail();
-  employee.companies.push(fromId);
-  company.employees.push(userId);
+  const companiesOfEmployee = [...new Set([...employee.companies, fromId])];
+  employee.companies = companiesOfEmployee;
+  const employeesOfCompany = [...new Set([...company.employees, userId])];
+  company.employees = employeesOfCompany;
   employee.save();
   company.save();
   request.remove();

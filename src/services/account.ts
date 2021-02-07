@@ -20,10 +20,12 @@ const getAdditionalInformation = async (
     case "employee":
       return await Employee.findOne({ account: id })
         .populate("account", "_id email role")
+        .populate("employees", "_id email role")
         .orFail();
     case "company":
       return Company.findOne({ account: id })
         .populate("account", "_id email role")
+        .populate("employees", "_id email role")
         .orFail();
     default:
       throw new Error("Role not found");
