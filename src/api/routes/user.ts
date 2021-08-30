@@ -11,7 +11,6 @@ import {
 } from "../middlewares/validators";
 import { checkRole } from "../middlewares/auth";
 import passport from "passport";
-import asyncHandler from "express-async-handler";
 
 const route = Router();
 
@@ -56,42 +55,42 @@ export default (app: Router) => {
   route.get(
     "/get-user",
     passport.authenticate("jwt", { session: false }),
-    asyncHandler(async (req, res, _next) => {
+    async (req, res, _next) => {
       const accountWithDetails = await accountService.getAdditionalInformation(
         req.user!._id
       );
       res.status(200).json(accountWithDetails);
-    })
+    }
   );
 
   route.post(
     "/find-user",
     passport.authenticate("jwt", { session: false }),
-    asyncHandler(async (req, res, _next) => {
+    async (req, res, _next) => {
       const account = await accountService.findAccountByEmail(req.body.email);
       const accountWithDetails = await accountService.getAdditionalInformation(
         account._id
       );
       res.status(200).json(accountWithDetails);
-    })
+    }
   );
 
   route.post(
     "/send-request",
     requestValidator,
     passport.authenticate("jwt", { session: false }),
-    asyncHandler(async (req, res, _next) => {
+    async (req, res, _next) => {
       await requestService.sendRequest(req.user!._id, req.body.toId);
       res.status(200).json({
         success: true,
       });
-    })
+    }
   );
 
   route.get(
     "/get-requests-to/:toId",
     passport.authenticate("jwt", { session: false }),
-    asyncHandler(async (req, res, _next) => {
+    async (req, res, _next) => {
       const incomingRequests = await requestService.getIncoming(
         req.params.toId
       );
@@ -99,13 +98,13 @@ export default (app: Router) => {
         success: true,
         incomingRequests,
       });
-    })
+    }
   );
 
   route.post(
     "/accept-request/:fromId",
     passport.authenticate("jwt", { session: false }),
-    asyncHandler(async (req, res, _next) => {
+    async (req, res, _next) => {
       await requestService.acceptRequest(
         req.params.fromId,
         req.user!._id.toString()
@@ -113,41 +112,33 @@ export default (app: Router) => {
       res.status(200).json({
         success: true,
       });
-    })
+    }
   );
 
   route.post(
     "/register-employee",
     employeeValidator,
-    asyncHandler(async (req, res, _next) => {
+    async (req, res, _next) => {
       const { account, employee } = await registrationService.registerEmployee(
         req.body
       );
       res.status(200).json({ success: true, msg: { account, employee } });
-    })
+    }
   );
 
-  route.post(
-    "/register-company",
-    companyValidator,
-    asyncHandler(async (req, res, _next) => {
-      const user = await registrationService.registerCompany(req.body);
-      res.status(200).json({ success: true, msg: user });
-    })
-  );
+  route.post("/register-company", companyValidator, async (req, res, _next) => {
+    const user = await registrationService.registerCompany(req.body);
+    res.status(200).json({ success: true, msg: user });
+  });
 
-  route.post(
-    "/login",
-    loginValidator,
-    asyncHandler(async (req, res, _next) => {
-      const { email, password } = req.body;
-      const tokenObject = await loginService.login(email, password);
+  route.post("/login", loginValidator, async (req, res, _next) => {
+    const { email, password } = req.body;
+    const tokenObject = await loginService.login(email, password);
 
-      res.status(200).json({
-        success: true,
-        token: tokenObject.token,
-        expires: tokenObject.expires,
-      });
-    })
-  );
+    res.status(200).json({
+      success: true,
+      token: tokenObject.token,
+      expires: tokenObject.expires,
+    });
+  });
 };

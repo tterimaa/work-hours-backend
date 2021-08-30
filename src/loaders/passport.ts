@@ -16,7 +16,7 @@ const options = {
 export default (passport: PassportStatic) => {
   passport.use(
     new JwtStrategy(options, function (jwtPayload, done) {
-      Account.findOne({ _id: jwtPayload.sub }, function (err, user) {
+      Account.findOne({ _id: jwtPayload.sub }, function (err: any, user: any) {
         if (err) {
           return done(err);
         }

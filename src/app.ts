@@ -12,7 +12,7 @@ async function startServer() {
       process.exit(1);
     });
 
-  app.listen(config.port, (err) => {
+  app.listen(config.port).on("error", (err) => {
     if (err) {
       Logger.error(err);
       process.exit(1);
