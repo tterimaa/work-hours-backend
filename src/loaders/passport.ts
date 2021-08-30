@@ -1,8 +1,10 @@
+import { IAccountModel } from "./../interfaces/IAccount";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import fs from "fs";
 import path from "path";
 import { PassportStatic } from "passport";
 import Account from "../models/Account";
+import { Error } from "mongoose";
 
 const pathToKey = path.join(__dirname, "../..", "id_rsa_pub.pem");
 const PUB_KEY = fs.readFileSync(pathToKey, "utf8");
@@ -16,7 +18,10 @@ const options = {
 export default (passport: PassportStatic) => {
   passport.use(
     new JwtStrategy(options, function (jwtPayload, done) {
-      Account.findOne({ _id: jwtPayload.sub }, function (err: any, user: any) {
+      Account.findOne({ _id: jwtPayload.sub }, function (
+        err: Error,
+        user: IAccountModel
+      ) {
         if (err) {
           return done(err);
         }
