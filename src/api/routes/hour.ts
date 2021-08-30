@@ -3,7 +3,6 @@ import passport from "passport";
 import { checkRole } from "../middlewares/auth";
 import { hourValidator } from "../middlewares/validators";
 import hourService from "../../services/hour";
-import { IHourModel } from "interfaces/IHour";
 
 const route = Router();
 
@@ -17,7 +16,7 @@ export default (app: Router) => {
     hourValidator,
     async (req, res) => {
       if (!req.user) throw new Error("Invalid user in request");
-      const hour: IHourModel = await hourService.add(req.body, req.user);
+      const hour = await hourService.add(req.body, req.user);
       res.status(200).json({
         success: true,
         msg: hour,

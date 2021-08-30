@@ -131,7 +131,7 @@ export default (app: Router) => {
     res.status(200).json({ success: true, msg: user });
   });
 
-  route.post("/login", loginValidator, async (req, res, _next) => {
+  route.post("/login", loginValidator, async (req, res) => {
     const { email, password } = req.body;
     const tokenObject = await loginService.login(email, password);
 

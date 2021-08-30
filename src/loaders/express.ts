@@ -5,6 +5,7 @@ import passport from "passport";
 import morgan from "morgan";
 import { errorHandler } from "../api/middlewares/error";
 import { unknownEndpoint } from "../api/middlewares/unknown-endpoint";
+require("express-async-errors");
 
 export default ({ app }: { app: express.Application }) => {
   app.use(cors());

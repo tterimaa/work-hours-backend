@@ -58,3 +58,23 @@ describe("Authorization", () => {
     expect(result.status).toBe(401);
   });
 });
+
+describe("Authorization e2e", () => {
+  test("Register succeeds with valid inputs", async () => {
+    const result = await api.post("/users/register-company").send({
+      email: "company@gmail.com",
+      password: "password",
+      role: "company",
+      companyName: "yritys",
+    });
+    expect(result.status).toBe(200);
+  });
+
+  test("Login fails and responds with error when user does not exist", async () => {
+    const result = await api.post("/users/login").send({
+      email: "company@gmail.com",
+      password: "password",
+    });
+    expect(result.status).toBe(500);
+  });
+});
