@@ -1,6 +1,7 @@
 import express from "express";
 import config from "./config/index";
 import Logger from "./loaders/logger";
+require("express-async-errors");
 
 async function startServer() {
   const app = express();
